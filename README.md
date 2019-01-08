@@ -134,7 +134,7 @@ Các build-in functions của java nằm trong java.util.function gồm
 
         Stream.of("hello", "world").filter(TestLMD::isString).forEach(consumer1.andThen(consumer2).andThen(consumer3));
     ```
-    + Có một kế thừa của Consumer là BiConsumer, tương tự nhưng châp nhận 2 param
+    + Có một kế thừa của Consumer là BiConsumer(tương đồng với các function interface còn lại), tương tự nhưng châp nhận 2 param
 
 * Function
     * Tương tự Consumer nhưng thay vì ko return, Function sẽ return giá trị
@@ -148,7 +148,7 @@ Các build-in functions của java nằm trong java.util.function gồm
          return String.valueOf((i < 0) ? -i : i);
     }
     ```
-    * andThen() method tương tự Consumer, và có thêm compose()
+    * andThen() method tương tự Consumer, và có thêm compose() đối nghịch với andThen()
     ```java
     Function<String, Integer> a1 = Integer::parseInt;
     Function<Integer, Integer> a2 = Math::abs;
@@ -159,10 +159,17 @@ Các build-in functions của java nằm trong java.util.function gồm
             .map(andthen)
             .forEach(System.out::println);
     ```
-
+    * Trong function có một vấn đề về method Function.identity(), sẽ nói sau
 
 * Supplier
-
+    ```java
+    @FunctionalInterface
+    public interface Supplier<T> {
+        T get();
+        // no other methods in this interface
+    }
+    ```
+    + Giống như tên gọi, interface cung cấp và ko đòi đối số
 
 ### Toán tử "Method reference"
  Như ví dụ ở functionalInterface Constumer
@@ -181,6 +188,13 @@ public class TestLMD {
         return x.equals("hello");
     }
 }
-
+```
+### java.util.Optional
+là 1 class có thể handler đc null
+```java
+Optional<String> empty = Optional.empty(); // create optical object
+Optional<String> nullableStr = Optional.ofNullable(null); // ok. return a empty o
+Optional<String> strings = Optional.of("abc"); // ok
+Optional<String> empty = Optional.of(null); // error crashes with a NullPointerException
 ```
 ### Vấn đề về Atomic class
